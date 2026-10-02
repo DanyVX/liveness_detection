@@ -31,8 +31,8 @@ def _scored(model: ClassicalPAD, samples: list[Sample]) -> ScoredSplit:
         scores=model.decision_scores(samples),
         labels=np.array([int(s.label) for s in samples]),
         attack_types=np.array([s.attack_type.value for s in samples]),
-        subject_keys=np.array([f"{s.dataset}:{s.subject_id}" for s in samples]),
-        sample_ids=np.array([s.path.name for s in samples]),
+        subject_keys=[f"{s.dataset}:{s.subject_id}" for s in samples],
+        sample_ids=[s.path.name for s in samples],
     )
 
 
