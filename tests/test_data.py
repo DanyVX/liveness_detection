@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import numpy as np
@@ -66,3 +67,42 @@ def test_settings_bad_value_fails_fast(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("LIVENESS_LOG_LEVEL", "LOUD")
     with pytest.raises(SystemExit, match="LIVENESS_LOG_LEVEL"):
         load_settings()
+
+
+def test_domain_b_names_manifest_and_roundtrip(tmp_path: Path) -> None:
+    samples = generate_synthetic_dataset(tmp_path, n_subjects=3, seed=0, domain="B")
+    assert {s.dataset for s in samples} == {"synthetic_b"}
+    assert json.loads((tmp_path / "manifest.json").read_text())["domain"] == "B"
+    assert load_synthetic(tmp_path) == samples
+    assert len(load_dataset("synthetic_b", tmp_path)) == 12
+    assert Image.open(samples[0].path).size == (80, 80)
+
+
+def test_domain_a_manifest_records_domain_and_old_manifest_loads(tmp_path: Path) -> None:
+    samples = generate_synthetic_dataset(tmp_path, n_subjects=2, seed=0)
+    manifest = json.loads((tmp_path / "manifest.json").read_text())
+    assert manifest["domain"] == "A"
+    (tmp_path / "manifest.json").write_text(json.dumps(manifest["samples"]))
+    assert load_synthetic(tmp_path) == samples
+
+
+def test_domain_b_differs_systematically(tmp_path: Path) -> None:
+    a = generate_synthetic_dataset(tmp_path / "a", n_subjects=6, seed=0, size=64)
+    b = generate_synthetic_dataset(tmp_path / "b", n_subjects=6, seed=0, size=64, domain="B")
+
+    def corner_mean(samples: list[Sample]) -> float:
+        return float(np.mean([np.asarray(Image.open(s.path))[:6, :6].mean() for s in samples]))
+
+    assert corner_mean(a) - corner_mean(b) > 30  # darker backgrounds in B
+
+    def colour_mean(samples: list[Sample], kind: AttackType) -> np.ndarray:
+        imgs = [np.asarray(Image.open(s.path)) for s in samples if s.attack_type is kind]
+        return np.mean([i.mean(axis=(0, 1)) for i in imgs], axis=0)
+
+    for kind in (AttackType.PRINT, AttackType.REPLAY):
+        assert np.abs(colour_mean(a, kind) - colour_mean(b, kind)).max() > 5
+
+
+def test_unknown_domain_rejected(tmp_path: Path) -> None:
+    with pytest.raises(ValueError, match="domain"):
+        generate_synthetic_dataset(tmp_path, n_subjects=1, domain="Z")

@@ -10,6 +10,7 @@ from pathlib import Path
 
 from liveness.data.base import Sample
 from liveness.data.synthetic import DATASET_NAME as SYNTHETIC
+from liveness.data.synthetic import DATASET_NAME_B as SYNTHETIC_B
 from liveness.data.synthetic import load_synthetic
 
 REAL_DATASETS = ("replay_attack", "casia_fasd", "oulu_npu")
@@ -20,7 +21,7 @@ class DatasetNotFoundError(FileNotFoundError):
 
 
 def load_dataset(name: str, root: Path) -> list[Sample]:
-    if name == SYNTHETIC:
+    if name in (SYNTHETIC, SYNTHETIC_B):
         return load_synthetic(root)
     if name in REAL_DATASETS:
         if not root.is_dir():
@@ -31,4 +32,4 @@ def load_dataset(name: str, root: Path) -> list[Sample]:
         raise NotImplementedError(
             f"{name}: loader not implemented yet (needs the real data to verify the layout)."
         )
-    raise KeyError(f"unknown dataset {name!r}; known: {[SYNTHETIC, *REAL_DATASETS]}")
+    raise KeyError(f"unknown dataset {name!r}; known: {[SYNTHETIC, SYNTHETIC_B, *REAL_DATASETS]}")
