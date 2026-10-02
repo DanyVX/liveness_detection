@@ -78,9 +78,7 @@ class Protocol:
         """Subject-level manifest: auditable, diff-able, and independent of file paths."""
         return {
             "name": self.name,
-            "splits": {
-                split.value: [list(key) for key in self.subjects(split)] for split in Split
-            },
+            "splits": {split.value: [list(key) for key in self.subjects(split)] for split in Split},
         }
 
     def manifest_hash(self) -> str:
@@ -113,7 +111,7 @@ def make_subject_disjoint_protocol(
     subjects = sorted(_subjects(samples))
     if len(subjects) < 3:
         raise ProtocolError("need at least 3 subjects for a train/val/test split")
-    random.Random(seed).shuffle(subjects)
+    random.Random(seed).shuffle(subjects)  # noqa: S311 - seeded split, not cryptographic
 
     n = len(subjects)
     n_val = max(1, round(n * fractions[1]))
