@@ -37,8 +37,11 @@ def test_higher_score_means_bona_fide_on_training_data(synthetic_samples: list[S
 
 
 def test_face_fallback_is_logged_and_counted(
-    synthetic_samples: list[Sample], caplog: pytest.LogCaptureFixture
+    synthetic_samples: list[Sample],
+    caplog: pytest.LogCaptureFixture,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    monkeypatch.setattr("liveness.features.preprocess.detect_face", lambda img: None)
     model = ClassicalPAD("fft")
     with caplog.at_level(logging.WARNING, logger="liveness.features.preprocess"):
         model.extract(synthetic_samples[0])
