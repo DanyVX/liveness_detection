@@ -35,7 +35,18 @@ Filled in per milestone.
 | Thresholds are config, not code | M6 | `test_threshold_change_via_settings_changes_decision` |
 | Non-finite model output | M6 | `test_non_finite_logit_raises` |
 | Uploads not persisted; no image bytes in logs | M6 | `test_uploads_are_not_persisted`, `test_logs_contain_no_image_bytes_or_scores` |
-| Active-challenge cases (glasses, FPS, mirror, replay, ...) | M4 | filled below |
+| Multiple faces | M4 | `test_multiple_faces_fail_after_tolerance`, `test_transient_second_face_is_tolerated` |
+| Face lost mid-challenge -> timeout FAIL | M4 | `test_face_lost_mid_challenge_times_out`, `test_brief_face_loss_is_tolerated` |
+| Out-of-order / duplicate timestamps | M4 | `test_duplicate_and_backwards_timestamps_fail` |
+| Very long session (cap, bounded memory) | M4 | `test_session_hard_cap_duration_and_frames`, `test_long_session_memory_is_bounded` |
+| Low-FPS camera (min FPS enforced and reported) | M4 | `test_low_fps_reported_not_silent`, `test_low_fps_is_insufficient_evidence` |
+| Mirrored front camera (left/right swap) | M4 | `test_mirrored_swaps_left_and_right`, `test_mirrored_camera_left_turn`, `test_mirror_flag_wrong_means_wrong_direction` |
+| Steps out of issued order | M4 | `test_steps_must_follow_issued_order` |
+| Challenge replay / expiry / unknown nonce | M4 | `test_replayed_challenge_is_rejected`, `test_expired_at_start_and_mid_session`, `test_unknown_nonce`, `test_concurrent_consume_succeeds_exactly_once` |
+| Slow vs fast blinks | M4 | `test_fast_and_slow_blinks_counted` |
+| Glasses / occluded eyes -> not a fail | M4 | `test_low_confidence_reports_eyes_occluded`, `test_occluded_eyes_are_insufficient_not_fail` |
+| EAR scale/translation invariance | M4 | `test_ear_invariant_to_scale_and_translation` (hypothesis) |
+| Accessibility: alternative challenge sets | M4 | `generate_challenge(allowed_kinds=...)` in `test_active_challenge.py`; limits in ACTIVE_LIVENESS.md |
 
 ## Not covered (reason)
 - CNN-specific cases (class imbalance, crop-margin ablation, NaN loss, AMP, resume parity),

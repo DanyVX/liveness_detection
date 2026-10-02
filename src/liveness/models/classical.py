@@ -10,12 +10,12 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Literal, get_args
 
-import joblib  # type: ignore[import-untyped]
+import joblib
 import numpy as np
 from numpy.typing import NDArray
-from sklearn.pipeline import Pipeline  # type: ignore[import-untyped]
-from sklearn.preprocessing import StandardScaler  # type: ignore[import-untyped]
-from sklearn.svm import SVC  # type: ignore[import-untyped]
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
 
 from liveness.data.base import Label, Sample
 from liveness.features.fft import fft_features
