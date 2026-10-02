@@ -39,6 +39,7 @@ dev = [
     "mypy>=1.10",
     "pre-commit>=3.7",
     "pip-audit>=2.7",
+    "onnx>=1.16",
 ]
 
 [tool.hatch.build.targets.wheel]

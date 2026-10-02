@@ -1502,6 +1502,7 @@ train = [
 dev = [
     { name = "hypothesis" },
     { name = "mypy" },
+    { name = "onnx" },
     { name = "pip-audit" },
     { name = "pre-commit" },
     { name = "pytest" },
@@ -1536,6 +1537,7 @@ provides-extras = ["landmarks", "train"]
 dev = [
     { name = "hypothesis", specifier = ">=6.100" },
     { name = "mypy", specifier = ">=1.10" },
+    { name = "onnx", specifier = ">=1.16" },
     { name = "pip-audit", specifier = ">=2.7" },
     { name = "pre-commit", specifier = ">=3.7" },
     { name = "pytest", specifier = ">=8" },
