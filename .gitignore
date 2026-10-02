@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+.coverage
+coverage.xml
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Never commit data, weights, or media (see DATA.md)
+data/
+datasets/
+*.onnx
+*.pt
+*.pth
+*.ckpt
+*.mp4
+*.avi
+*.mov
+*.ipynb_checkpoints/
