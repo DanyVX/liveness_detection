@@ -14,8 +14,8 @@ build/
 *.egg-info/
 
 # Never commit data, weights, or media (see DATA.md)
-data/
-datasets/
+/data/
+/datasets/
 *.onnx
 *.pt
 *.pth
