@@ -19,3 +19,5 @@
 | 2026-10-02 | Cross-domain threshold = source-val threshold, applied unchanged to the target | Re-tune on target | Re-tuning on the target test set would be leakage. The target-EER threshold is reported only as a diagnostic of calibration shift. |
 | 2026-10-02 | Insufficient quality / evidence are explicit decisions | Force LIVE/SPOOF | An unusable frame is not evidence of an attack; forcing SPOOF would also hide quality problems. |
 | 2026-10-02 | Active challenges: `secrets`-based randomness, nonce one-time use, short expiry | Fixed challenge set | Unpredictability is the only defence against replayed recordings of a previous challenge. |
+| 2026-10-03 | Licensed datasets enter through a normalized, checksummed manifest | Guess each proprietary archive layout | The adapter is testable without redistributing data and forces subject/split decisions to be explicit. |
+| 2026-10-03 | CNN early stopping uses validation ACER; CLI requires at least three seeds | Stop on training loss or report one lucky seed | This matches the target metric and exposes variance without looking at test labels. |

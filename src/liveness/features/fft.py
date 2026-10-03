@@ -59,7 +59,7 @@ def fft_features(img: NDArray[np.generic], n_bands: int = 8) -> NDArray[np.float
     high = (rad >= HIGH_BAND_START) & (rad <= 1.0)
     high_ratio = spec[high].sum() / total
     vals = spec[high]
-    prominence = np.log10(vals.max() + _EPS) - np.log10(np.median(vals) + _EPS)
+    prominence = np.log10(np.max(vals, initial=0.0) + _EPS) - np.log10(np.median(vals) + _EPS)
     return np.concatenate([bands, [high_ratio, prominence]])
 
 

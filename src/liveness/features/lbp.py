@@ -34,7 +34,7 @@ def _uniform_table() -> NDArray[np.intp]:
 
 
 _TABLE = _uniform_table()
-N_BINS = int(_TABLE.max()) + 1  # 59
+N_BINS = int(np.max(_TABLE, initial=0)) + 1  # 59
 
 
 def lbp_codes(gray: NDArray[np.float32], radius: int = 1) -> NDArray[np.intp]:

@@ -1,0 +1,4 @@
+relative_path,subject_id,label,attack_type,split,sha256
+frames/train/client001/live_0001.jpg,client001,bona_fide,none,train,
+frames/devel/client021/print_0001.jpg,client021,attack,print,val,
+frames/test/client041/replay_0001.jpg,client041,attack,replay,test,

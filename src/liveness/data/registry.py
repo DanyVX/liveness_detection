@@ -1,14 +1,11 @@
-"""Dataset loaders by name.
-
-Real loaders are intentionally stubs until access is granted and the on-disk layout has
-been checked against DATA.md. They fail loudly rather than guessing a layout.
-"""
+"""Dataset loaders by name, backed by audited normalized manifests for licensed data."""
 
 from __future__ import annotations
 
 from pathlib import Path
 
 from liveness.data.base import Sample
+from liveness.data.manifest import ManifestError, load_manifest_dataset
 from liveness.data.synthetic import DATASET_NAME as SYNTHETIC
 from liveness.data.synthetic import DATASET_NAME_B as SYNTHETIC_B
 from liveness.data.synthetic import load_synthetic
@@ -29,7 +26,8 @@ def load_dataset(name: str, root: Path) -> list[Sample]:
                 f"{name}: {root} not found. Request access and follow DATA.md; "
                 "datasets are never downloaded or committed automatically."
             )
-        raise NotImplementedError(
-            f"{name}: loader not implemented yet (needs the real data to verify the layout)."
-        )
+        try:
+            return list(load_manifest_dataset(name, root).samples)
+        except ManifestError as exc:
+            raise ManifestError(f"{name}: {exc}") from exc
     raise KeyError(f"unknown dataset {name!r}; known: {[SYNTHETIC, SYNTHETIC_B, *REAL_DATASETS]}")

@@ -13,6 +13,7 @@ Filled in per milestone.
 | Grayscale / RGBA / palette input | M1 | `test_load_image_modes`, `test_grayscale_and_rgb_give_same_shaped_features` |
 | Different resolutions (resolution as shortcut) | M1 | `test_native_resolution_is_not_a_shortcut` |
 | JPEG-artifact bias between classes | M1 | `test_flags_constructed_bias`, `test_unbiased_set_not_flagged`, `test_png_marks_quality_not_available` |
+| Unsafe paths / duplicate files / checksum mismatch in licensed data | M0 | `test_manifest_data.py` |
 | Face not detected -> logged centre-crop fallback | M1 | `test_crop_face_fallback_is_logged_and_flagged`, `test_face_fallback_is_logged_and_counted` |
 | Crop margin stays inside the image | M1 | `test_crop_with_margin_inside_bounds_and_nonempty` (hypothesis) |
 | Moire raises FFT high-band energy | M1 | `test_fft_high_band_ratio_larger_with_grating` |
@@ -22,6 +23,12 @@ Filled in per milestone.
 | Bootstrap resamples subjects | M3 | `test_bootstrap_resamples_subjects_not_samples` |
 | Small sample warning | M3 | `test_small_sample_warning` |
 | Cross-domain threshold shift (diagnostic only) | M3 | `test_cross_dataset_uses_source_threshold_and_labels_shift_diagnostic` |
+| Class imbalance / balanced exposure | M2 | `test_balanced_sampler_exposes_both_classes` |
+| NaN loss / gradient | M2 | `train._run_epoch` fails before checkpoint advancement |
+| Resume curve parity | M2 | `test_resume_matches_uninterrupted_curve` |
+| JPEG augmentation | M2 | `RandomJPEGCompression` in the training transform |
+| Crop-margin ablation | M2 | `liveness.train --face-margins ...` |
+| Multiple seeds (>=3) | M2 | CLI rejects fewer than three distinct seeds |
 | Synthetic results marked / absent shown as TBD | M3 | `test_smoke_rows_are_marked_and_small_sample_flagged`, `test_expected_but_absent_is_tbd` |
 | Results JSON carries env + commit | M3 | `test_results_json_contains_env_and_commit` |
 | Window shorter than needed | M5 | `test_window_shorter_than_needed_is_insufficient_evidence` |
@@ -49,9 +56,6 @@ Filled in per milestone.
 | Accessibility: alternative challenge sets | M4 | `generate_challenge(allowed_kinds=...)` in `test_active_challenge.py`; limits in ACTIVE_LIVENESS.md |
 
 ## Not covered (reason)
-- CNN-specific cases (class imbalance, crop-margin ablation, NaN loss, AMP, resume parity),
-  ONNX FP32-vs-INT8 delta, ONNX parity: **blocked**, need the optional `train` extra (torch
-  wheel > 500 MB; waiting for approval, see docs/DESIGN.md).
 - Low light, backlight, sunglasses, masks, makeup, skin tones, OLED vs LCD, matte vs glossy,
   bent paper, cut-outs, fisheye, rolling shutter, time-of-day: need real data or real captures;
   unmeasured.

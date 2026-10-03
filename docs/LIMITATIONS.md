@@ -9,13 +9,13 @@ Updated every milestone. Negative results go here.
 ## What is NOT done yet (honest status)
 - **No real-data result exists.** Datasets need signed access requests; every number in
   RESULTS.md is TBD. Synthetic smoke results are labelled and are not performance claims.
-- **No CNN, no ONNX export of a real model, no ONNX parity or INT8 delta.** The torch stack
-  (wheel > 500 MB) was not installed without approval; it lives in the optional `train` extra.
-  The serving layer is built and tested against hand-made tiny ONNX models only.
+- **No real-data CNN weights or metric.** CNN training, ONNX parity and INT8 comparison are
+  implemented and synthetic-tested; only licensed-data execution is pending.
 - **No latency numbers for a real model.** `bench/latency.py` exists; only a labelled
   synthetic-smoke mode has been exercised.
 - **No demo GIF.** It needs the owner's own face and device.
-- Real dataset loaders are stubs (layout unverified without data).
+- Real datasets use a strict normalized manifest adapter. Raw archive-to-manifest conversion
+  still requires access to, and inspection of, the licensed release.
 
 ## Known technical limitations
 - Cross-dataset identity overlap (same person, different IDs) cannot be detected from

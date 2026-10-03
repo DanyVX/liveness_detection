@@ -10,12 +10,14 @@ from __future__ import annotations
 import random
 from collections.abc import Sequence
 from dataclasses import asdict, dataclass
+from io import BytesIO
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 import torch
 from numpy.typing import NDArray
+from PIL import Image
 from torch import Tensor, nn
 from torch.utils.data import Dataset, WeightedRandomSampler
 from torchvision import transforms  # type: ignore[import-untyped]
@@ -26,6 +28,31 @@ from liveness.features.preprocess import crop_face, load_image, normalize_resolu
 DEFAULT_ARCH = "mobilenetv3_small_050"
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
+
+
+class RandomJPEGCompression:
+    """Round-trip a PIL image through JPEG to reduce codec-specific shortcuts."""
+
+    def __init__(
+        self, minimum_quality: int = 35, maximum_quality: int = 95, p: float = 0.5
+    ) -> None:
+        if not 1 <= minimum_quality <= maximum_quality <= 100:
+            raise ValueError("JPEG quality bounds must satisfy 1 <= min <= max <= 100")
+        if not 0 <= p <= 1:
+            raise ValueError("p must be in [0, 1]")
+        self.minimum_quality = minimum_quality
+        self.maximum_quality = maximum_quality
+        self.p = p
+
+    def __call__(self, image: Image.Image) -> Image.Image:
+        if random.random() >= self.p:  # noqa: S311 - augmentation randomness is seeded
+            return image
+        quality = random.randint(self.minimum_quality, self.maximum_quality)  # noqa: S311
+        buffer = BytesIO()
+        image.save(buffer, format="JPEG", quality=quality)
+        buffer.seek(0)
+        with Image.open(buffer) as decoded:
+            return decoded.convert("RGB").copy()
 
 
 @dataclass(frozen=True)
@@ -77,6 +104,7 @@ def training_transform(size: int) -> transforms.Compose:
             transforms.RandomHorizontalFlip(),
             transforms.ColorJitter(brightness=0.25, contrast=0.25, saturation=0.20, hue=0.04),
             transforms.RandomApply([transforms.GaussianBlur(3, sigma=(0.1, 1.5))], p=0.35),
+            RandomJPEGCompression(),
             transforms.ToTensor(),
             transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD),
         ]
@@ -161,4 +189,3 @@ def checkpoint_payload(
 def save_checkpoint(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     torch.save(payload, path)
-

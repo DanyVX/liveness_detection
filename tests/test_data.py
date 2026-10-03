@@ -6,7 +6,7 @@ import pytest
 from PIL import Image
 
 from liveness.config import Settings, load_settings
-from liveness.data import AttackType, Label, Sample
+from liveness.data import AttackType, Label, ManifestError, Sample
 from liveness.data.registry import DatasetNotFoundError, load_dataset
 from liveness.data.synthetic import generate_synthetic_dataset, load_synthetic
 
@@ -48,8 +48,8 @@ def test_registry_real_dataset_missing_points_to_data_md(tmp_path: Path) -> None
         load_dataset("replay_attack", tmp_path / "nope")
 
 
-def test_registry_real_loader_not_implemented(tmp_path: Path) -> None:
-    with pytest.raises(NotImplementedError):
+def test_registry_real_loader_requires_manifest(tmp_path: Path) -> None:
+    with pytest.raises(ManifestError, match="manifest"):
         load_dataset("casia_fasd", tmp_path)
 
 

@@ -1,7 +1,7 @@
 .PHONY: setup lint format typecheck test test-fast bench run docker-build clean
 
 setup:
-	uv sync
+	uv sync --extra train --group dev
 	uv run pre-commit install
 
 lint:

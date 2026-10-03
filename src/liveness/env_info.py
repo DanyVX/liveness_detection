@@ -30,7 +30,8 @@ def _version(dist: str) -> str | None:
 
 def _ram_bytes() -> int | None:
     try:
-        return os.sysconf("SC_PAGE_SIZE") * os.sysconf("SC_PHYS_PAGES")
+        sysconf = os.sysconf  # type: ignore[attr-defined]
+        return int(sysconf("SC_PAGE_SIZE")) * int(sysconf("SC_PHYS_PAGES"))
     except (ValueError, OSError, AttributeError):
         return None
 

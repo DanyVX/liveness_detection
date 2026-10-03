@@ -1,7 +1,7 @@
 # Model card
 
-> **Status: no trained model exists yet.** Every field marked TBD is filled by a script
-> output in `results/`, never by hand. Nothing here is a performance claim.
+> **Status: no real-data trained model or performance claim exists yet.** Synthetic training
+> only verifies the pipeline. Every TBD metric is filled from signed result JSON, never by hand.
 
 ## Overview
 - **Task:** face presentation-attack detection (bona fide vs print / screen replay),
@@ -15,11 +15,11 @@
 | Model | Purpose | Status |
 |---|---|---|
 | LBP + FFT features + SVM | Sanity floor | Implemented; real-data result TBD (not yet measured) |
-| Small pretrained CNN (MobileNetV3-small / ResNet18) | Main passive model | Not trained (needs the optional `train` extra and real data) |
+| Small pretrained CNN (MobileNetV3-small / ResNet18) | Main passive model | Training/evaluation complete in code and synthetic smoke; real-data weights not produced |
 
 ## Training data
-TBD. Candidate sources are Replay-Attack and CASIA-FASD (research / non-commercial; terms
-unverified, see DATA.md). Models trained on them inherit the non-commercial restriction;
+TBD. Planned sources are Replay-Attack and CASIA-FASD (restricted research data; see DATA.md).
+Models trained on them inherit the applicable agreement restrictions;
 **weights are not published.**
 
 ## Evaluation protocol
