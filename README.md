@@ -3,7 +3,7 @@
 Face presentation-attack detection (print / screen replay) built around honest evaluation:
 ISO/IEC 30107-3 metrics, subject-disjoint protocols, and cross-dataset generalization.
 
-**Status: pipeline, metrics, classical baseline, active-challenge logic and serving layer are built and tested on a synthetic fixture. No real dataset has been used and no real-performance number exists yet. The CNN (M2) is blocked on installing torch and on dataset access.**
+**Status: pipeline, metrics, classical baseline, CNN training path, active-challenge logic and serving layer are built and tested on a synthetic fixture. No real dataset has been used and no real-performance number exists yet. Real-data CNN evaluation remains blocked on dataset access.**
 
 ## Key results
 
@@ -74,7 +74,8 @@ See [docs/LIMITATIONS.md](docs/LIMITATIONS.md). 3D masks and injection attacks a
 ## Roadmap
 
 Done (synthetic only): M0 protocols, M1 classical baseline, M3 eval core, M4 active challenge,
-M5 fusion, M6 serving, M7 docs drafts.
+M5 fusion, M6 serving, M7 docs drafts, and the M2 CNN training path.
 
-Blocked: dataset access (Replay-Attack, CASIA-FASD), M2 CNN + ONNX export/parity/INT8 (needs
-the optional `train` extra), real-data cross-dataset results, latency on a real model, demo GIF.
+Blocked: dataset access (Replay-Attack, CASIA-FASD), real-data cross-dataset results, latency
+on a real model, and demo GIF. Install the optional `train` extra for CNN training:
+`uv sync --extra train --group dev`.
